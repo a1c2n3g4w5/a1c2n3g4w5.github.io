@@ -82,28 +82,32 @@
   <li>测试代码高亮</li>
 </ul>
 
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">console</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s1">'helloworld'</span><span class="p">);</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">console</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s1">&#39;helloworld&#39;</span><span class="p">);</span>
 <span class="c1">// 绑定鼠标移动事件</span>
-<span class="nl">_bindMouseMoveEvents</span> <span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+<span class="nx">_bindMouseMoveEvents</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
 	<span class="kd">var</span> <span class="nx">me</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
 
 	<span class="kd">var</span> <span class="nx">map</span> <span class="o">=</span> <span class="nx">me</span><span class="p">.</span><span class="nx">map</span><span class="p">;</span>
-	<span class="nx">map</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s2">"load"</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-		<span class="nx">map</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s2">"mouse-move"</span><span class="p">,</span> <span class="nx">showCoordinates</span><span class="p">);</span>
-		<span class="nx">map</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s2">"mouse-drag"</span><span class="p">,</span> <span class="nx">showCoordinates</span><span class="p">);</span>
+	<span class="nx">map</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s2">&quot;load&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+		<span class="nx">map</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s2">&quot;mouse-move&quot;</span><span class="p">,</span> <span class="nx">showCoordinates</span><span class="p">);</span>
+		<span class="nx">map</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s2">&quot;mouse-drag&quot;</span><span class="p">,</span> <span class="nx">showCoordinates</span><span class="p">);</span>
 	<span class="p">});</span>
 
 	<span class="kd">function</span> <span class="nx">showCoordinates</span><span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="p">{</span>
 		<span class="kd">var</span> <span class="nx">pt</span> <span class="o">=</span> <span class="nx">evt</span><span class="p">.</span><span class="nx">mapPoint</span><span class="p">;</span>
-		<span class="nx">query</span><span class="p">(</span><span class="s2">".coordinate"</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"innerHTML"</span><span class="p">,</span> <span class="p">(</span><span class="nx">pt</span><span class="p">.</span><span class="nx">x</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="s2">", "</span> <span class="o">+</span> <span class="nx">pt</span><span class="p">.</span><span class="nx">y</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span><span class="mi">2</span><span class="p">)));</span>
+		<span class="nx">query</span><span class="p">(</span><span class="s2">&quot;.coordinate&quot;</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;innerHTML&quot;</span><span class="p">,</span> <span class="p">(</span><span class="nx">pt</span><span class="p">.</span><span class="nx">x</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span> <span class="o">+</span> <span class="nx">pt</span><span class="p">.</span><span class="nx">y</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span><span class="mi">2</span><span class="p">)));</span>
 	<span class="p">}</span>
 
 <span class="p">}</span></code></pre></div>
 
-<h2 id="windows">推荐教程（Windows下安装）</h2>
+<h2 id="windows">Windows下安装推荐教程</h2>
 <p><a href="http://jekyll-windows.juthilo.com/" title="http://jekyll-windows.juthilo.com/">http://jekyll-windows.juthilo.com/</a></p>
 
 <p>虽然是英语写的，但是很有条理，结构清晰。</p>
+
+<h2 id="jekyll-">Jekyll 资料</h2>
+
+<p><a href="http://jekyll.bootcss.com/docs/home">http://jekyll.bootcss.com/docs/home</a></p>
 
   </article>
 
