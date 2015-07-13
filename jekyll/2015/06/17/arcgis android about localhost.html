@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Arcgis Android关于localhost的那些事 </title>
+  <meta name="description" content="为啥写这篇文章">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://yourdomain.com/jekyll/2015/06/17/arcgis%20android%20about%20localhost.html">
+  <link rel="alternate" type="application/rss+xml" title="王灿的博客" href="http://yourdomain.com/feed.xml" />
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">王灿的博客</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/about/">about</a>
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Arcgis Android关于localhost的那些事 </h1>
+    <p class="post-meta">Jun 17, 2015</p>
+  </header>
+
+  <article class="post-content">
+    <h2 id="section">为啥写这篇文章</h2>
+
+<p>实在是不想一一回复了，太浪费时间了，干脆写成博客。</p>
+
+<p>本博文主要解释，在arcgis android开发中，android端如何调用自己的服务，以及为什么不能使用localhost。</p>
+
+<p>其实是很简单的问题，鉴于很多人是gis和测绘等专业的，不懂计算机网络，所以还是拿出来说下。</p>
+
+<h2 id="section-1">为什么你的服务无法加载</h2>
+<ul>
+  <li>首先检查你的服务是否正常
+  电脑浏览器里直接输入服务地址，看能否访问，显示服务信息。</li>
+  <li>首先检查你的模拟器（手机），是否能访问你的服务。
+  在你模拟器（手机）的浏览器里输入服务地址，看能否访问。
+  很多人就是在这一步检查出问题，因为他们的服务地址里写的是http://localhost:8399/arcgis/services/201507NMY/MapServer/WMSServer”这种服务地址，明明在电脑上检查服务是好的，手机上就是无法加载。</li>
+</ul>
+
+<h2 id="localhost">为什么写localhost无法访问你的服务</h2>
+<ul>
+  <li>
+    <p>localhost是什么</p>
+
+    <p>百度百科的解释：</p>
+
+    <p>localhost在计算机网络中，localhost（意为“本地主机”，指“这台计算机”）是给回路网络接口（loopback）的一个标准主机名，相对应的IP地址为127.0.0.1（IPv4）和[::1]（IPv6）。</p>
+
+    <p>其实就是指你的电脑本身。</p>
+  </li>
+  <li>
+    <p>为什么模拟器无法识别localhost</p>
+
+    <p>如果你打开你的hosts文件(<a href="C:\Windows\system32\drivers\etc\hosts">C:\Windows\system32\drivers\etc\hosts</a>)，你会发现这一段。</p>
+  </li>
+</ul>
+<pre>
+# localhost name resolution is handled within DNS itself.
+#	127.0.0.1       localhost
+#	::1             localhost
+</pre>
+<p>windows会默认将localhost解析为你的本机，当你在android中使用这个地址的时候，android 本身是不能识别localhost的。我们可以这样来理解：Android的底层是Linux kernel，包括Android本身就是一个操作系统，因此，这时我们在模拟器的浏览器中输入的localhost或127.0.0.1所代表的是Android模拟器（Android虚拟机），而不是你的电脑，明白了吗？
+所以这就是为什么你的服务在电脑上可以访问，手机上访问不了。</p>
+
+<h2 id="section-2">手机上如何访问自己电脑上的服务</h2>
+
+<h3 id="wifi">1.手机和电脑连接同一个路由器（wifi）</h3>
+
+<p>或者类似的方式都行，能保证网络连通。
+win+R键，打开运行，输入cmd，输入ipconfig回车。记下你的本地ip地址
+<img src="/images/ipconfig.png" alt="images/ipconfig.png" title="images/ipconfig.png" /></p>
+
+<p>将localhost替换为这个本地ip即可，可以在手机浏览器中测试你的服务地址，如果还不能访问，可以考虑在防火墙设置，或者暂时关闭防火墙。因为防火墙可能会阻止6080端口的访问，比如服务地址（http://localhost:6080/arcgis/services/201507NMY/MapServer/）。</p>
+
+<p>包括但不限于这种方法，如果你是其他更复杂的网络环境，也是一个道理，只要你让你的测试设备能访问你的服务地址即可。</p>
+
+<h3 id="section-3">2.模拟器直接访问电脑</h3>
+
+<p>将localhost替换为10.0.2.2</p>
+
+<h3 id="wifi-1">3.笔记本或台式机发射wifi给手机连接</h3>
+
+<p>笔记本使用wifi共享精灵或者猎豹wifi等wifi共享软件，发射出一个wifi，手机连上之后。可以查看手机的ip地址，然后在电脑上查看电脑的本地ip。此处可以参考1</p>
+
+  </article>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">王灿的博客</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col  footer-col-1">
+        <ul class="contact-list">
+          <li>王灿的博客</li>
+          <li><a href="mailto:d320f9@163.com">d320f9@163.com</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/a1c2n3g4w5">
+              <span class="icon  icon--github">
+                <svg viewBox="0 0 16 16">
+                  <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+                </svg>
+              </span>
+
+              <span class="username">a1c2n3g4w5</span>
+            </a>
+          </li>
+          
+
+          
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-3">
+        <p class="text">Arcgis Android,Web Gis 
+</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

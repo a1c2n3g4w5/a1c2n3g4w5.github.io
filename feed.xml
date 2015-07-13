@@ -2,12 +2,12 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>王灿的博客</title>
-    <description>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+    <description>Arcgis Android,Web Gis 
 </description>
     <link>http://yourdomain.com/</link>
     <atom:link href="http://yourdomain.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 24 Jun 2015 10:47:12 +0800</pubDate>
-    <lastBuildDate>Wed, 24 Jun 2015 10:47:12 +0800</lastBuildDate>
+    <pubDate>Mon, 13 Jul 2015 16:26:57 +0800</pubDate>
+    <lastBuildDate>Mon, 13 Jul 2015 16:26:57 +0800</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
     
       <item>
@@ -62,6 +62,79 @@
         <pubDate>Wed, 17 Jun 2015 05:30:03 +0800</pubDate>
         <link>http://yourdomain.com/jekyll/2015/06/17/jekyll-envirenment-build.html</link>
         <guid isPermaLink="true">http://yourdomain.com/jekyll/2015/06/17/jekyll-envirenment-build.html</guid>
+        
+        
+        <category>jekyll</category>
+        
+      </item>
+    
+      <item>
+        <title>Arcgis Android关于localhost的那些事 </title>
+        <description>&lt;h2 id=&quot;section&quot;&gt;为啥写这篇文章&lt;/h2&gt;
+
+&lt;p&gt;实在是不想一一回复了，太浪费时间了，干脆写成博客。&lt;/p&gt;
+
+&lt;p&gt;本博文主要解释，在arcgis android开发中，android端如何调用自己的服务，以及为什么不能使用localhost。&lt;/p&gt;
+
+&lt;p&gt;其实是很简单的问题，鉴于很多人是gis和测绘等专业的，不懂计算机网络，所以还是拿出来说下。&lt;/p&gt;
+
+&lt;h2 id=&quot;section-1&quot;&gt;为什么你的服务无法加载&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;首先检查你的服务是否正常
+  电脑浏览器里直接输入服务地址，看能否访问，显示服务信息。&lt;/li&gt;
+  &lt;li&gt;首先检查你的模拟器（手机），是否能访问你的服务。
+  在你模拟器（手机）的浏览器里输入服务地址，看能否访问。
+  很多人就是在这一步检查出问题，因为他们的服务地址里写的是http://localhost:8399/arcgis/services/201507NMY/MapServer/WMSServer”这种服务地址，明明在电脑上检查服务是好的，手机上就是无法加载。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;localhost&quot;&gt;为什么写localhost无法访问你的服务&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;localhost是什么&lt;/p&gt;
+
+    &lt;p&gt;百度百科的解释：&lt;/p&gt;
+
+    &lt;p&gt;localhost在计算机网络中，localhost（意为“本地主机”，指“这台计算机”）是给回路网络接口（loopback）的一个标准主机名，相对应的IP地址为127.0.0.1（IPv4）和[::1]（IPv6）。&lt;/p&gt;
+
+    &lt;p&gt;其实就是指你的电脑本身。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;为什么模拟器无法识别localhost&lt;/p&gt;
+
+    &lt;p&gt;如果你打开你的hosts文件(&lt;a href=&quot;C:\Windows\system32\drivers\etc\hosts&quot;&gt;C:\Windows\system32\drivers\etc\hosts&lt;/a&gt;)，你会发现这一段。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;
+# localhost name resolution is handled within DNS itself.
+#	127.0.0.1       localhost
+#	::1             localhost
+&lt;/pre&gt;
+&lt;p&gt;windows会默认将localhost解析为你的本机，当你在android中使用这个地址的时候，android 本身是不能识别localhost的。我们可以这样来理解：Android的底层是Linux kernel，包括Android本身就是一个操作系统，因此，这时我们在模拟器的浏览器中输入的localhost或127.0.0.1所代表的是Android模拟器（Android虚拟机），而不是你的电脑，明白了吗？
+所以这就是为什么你的服务在电脑上可以访问，手机上访问不了。&lt;/p&gt;
+
+&lt;h2 id=&quot;section-2&quot;&gt;手机上如何访问自己电脑上的服务&lt;/h2&gt;
+
+&lt;h3 id=&quot;wifi&quot;&gt;1.手机和电脑连接同一个路由器（wifi）&lt;/h3&gt;
+
+&lt;p&gt;或者类似的方式都行，能保证网络连通。
+win+R键，打开运行，输入cmd，输入ipconfig回车。记下你的本地ip地址
+&lt;img src=&quot;/images/ipconfig.png&quot; alt=&quot;images/ipconfig.png&quot; title=&quot;images/ipconfig.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;将localhost替换为这个本地ip即可，可以在手机浏览器中测试你的服务地址，如果还不能访问，可以考虑在防火墙设置，或者暂时关闭防火墙。因为防火墙可能会阻止6080端口的访问，比如服务地址（http://localhost:6080/arcgis/services/201507NMY/MapServer/）。&lt;/p&gt;
+
+&lt;p&gt;包括但不限于这种方法，如果你是其他更复杂的网络环境，也是一个道理，只要你让你的测试设备能访问你的服务地址即可。&lt;/p&gt;
+
+&lt;h3 id=&quot;section-3&quot;&gt;2.模拟器直接访问电脑&lt;/h3&gt;
+
+&lt;p&gt;将localhost替换为10.0.2.2&lt;/p&gt;
+
+&lt;h3 id=&quot;wifi-1&quot;&gt;3.笔记本或台式机发射wifi给手机连接&lt;/h3&gt;
+
+&lt;p&gt;笔记本使用wifi共享精灵或者猎豹wifi等wifi共享软件，发射出一个wifi，手机连上之后。可以查看手机的ip地址，然后在电脑上查看电脑的本地ip。此处可以参考1&lt;/p&gt;
+</description>
+        <pubDate>Wed, 17 Jun 2015 05:30:03 +0800</pubDate>
+        <link>http://yourdomain.com/jekyll/2015/06/17/arcgis%20android%20about%20localhost.html</link>
+        <guid isPermaLink="true">http://yourdomain.com/jekyll/2015/06/17/arcgis%20android%20about%20localhost.html</guid>
         
         
         <category>jekyll</category>
